@@ -32,32 +32,33 @@ namespace Login
         SQLiteConnection connection = new SQLiteConnection(App.strDatabasePath);
 
 
+
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            // shows error massege when a field is not fild in
-            if (textBoxEmail.Text.Trim() == ""|| passwordBox1.Text.Trim() == "")
+
+            if (textBoxEmail.Text.Trim() == "" || passwordBox1.Text.Trim() == "")
             {
-                MessageBox.Show("Empty Fields", "Error");
+                MessageBox.Show("Empty Fields", "Error"); return;
             }
-            else
+            var query = connection.Table<Acounts>().Where(x => x.Email == textBoxEmail.Text);
+            if (query[0].Password == passwordBox1.Text)
             {
-                //MessageBox.Show("Correct");
-                connection.Table<Acounts>().ToList().ForEach((each) =>
-                {
-
-                    // check if the cridentials are alright
-                    if (each.Email == textBoxEmail.Text || each.Password == passwordBox1.Text)
-                    {
-                        GrantedAcces(); return;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Empty Fields", "Error"); //displayed message if login has faied
-                    }
-                });
-
+                GrantedAcces(); return;
             }
         }
+        
+//        connection.Table<Acounts>().ToList().ForEach((each) =>
+//            {
+//            if (each.Email == textBoxEmail.Text && each.Password == passwordBox1.Text)
+//            {
+//              Console.WriteLine(each.Email);
+//            Console.WriteLine(each.Password);
+//
+//          GrantedAcces(); return;
+//    }
+// });
+
+
 
 
 
